@@ -7,3 +7,68 @@
 //
 
 import Foundation
+
+enum ErrorManager: Error {
+    case jsonError
+}
+class FoaasAPIManager {
+    
+    internal func getFoaas(url: URL, completion: @escaping (Foaas) -> Void) {
+        var request = URLRequest(url: url)
+        request.httpMethod = "GET"
+        request.addValue("application/json", forHTTPHeaderField: "Accept")
+        let session = URLSession(configuration: URLSessionConfiguration.default)
+        session.dataTask(with: url) {(data: Data?, responbse: URLResponse?, error: Error?) in
+            if error != nil {
+                print("ENCOUNTERED ERROR: \(error)")
+            }
+            if let validData: Data = data {
+                do {
+                    let foaasJson = try JSONSerialization.jsonObject(with: validData, options: [])
+                    guard let foaasDict = foaasJson as? [String : Any] else {throw ErrorManager.jsonError}
+                    if let fooasReturn = Foaas(json: foaasDict) {
+                        completion(fooasReturn)
+                    }
+                }
+                catch ErrorManager.jsonError {
+                    print("ERROR WHEN CONVERTING DATA TO JSON")
+                }
+                catch {
+                    print("THERE IS AN UNKNOWN \(error)")
+                }
+            }
+            }.resume()
+    }
+    
+    internal func getOperations(complete: @escaping ([FoaasOperation]?)-> Void) {
+        guard let url: URL = URL(string: "http://www.foaas.com/operations") else { return }
+        var request = URLRequest(url: url)
+        request.httpMethod = "GET"
+        request.addValue("applications/json", forHTTPHeaderField: "Accept")
+        let session = URLSession(configuration: URLSessionConfiguration.default)
+        session.dataTask(with: url) {(data: Data?, response: URLResponse?, error: Error?) in
+            if error != nil {
+                print("ERROR ENCOUNTERED: \(error)")
+            }
+            if let validData: Data = data {
+                var operationArr = [FoaasOperation]()
+                do {
+                    let operationJson = try JSONSerialization.jsonObject(with: validData, options: [])
+                    guard let operation = operationJson as? [String: Any] else { throw ErrorManager.jsonError }
+                    let operationToAppend = FoaasOperation(json: operation)
+                    if let parsedOperation = operationToAppend {
+                        operationArr.append(parsedOperation)
+                    }
+                    complete(operationArr)
+                }
+                catch ErrorManager.jsonError {
+                    print("ERROR WHEN CONVERTING DATA TO JSON")
+                }
+                catch {
+                    print("ERROR \(error)")
+                }
+            }
+            }.resume()
+    }
+    
+}

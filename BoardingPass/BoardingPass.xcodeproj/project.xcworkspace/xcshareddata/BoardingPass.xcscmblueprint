@@ -1,0 +1,37 @@
+{
+  "DVTSourceControlWorkspaceBlueprintPrimaryRemoteRepositoryKey" : "7F5F9FE35D3AF8E4AD76C26B362B3DBB8AA159E6+++B92694A",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyRepositoryLocationsKey" : {
+
+  },
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyStatesKey" : {
+    "7F5F9FE35D3AF8E4AD76C26B362B3DBB8AA159E6+++CCFB8A7" : 9223372036854775807,
+    "7F5F9FE35D3AF8E4AD76C26B362B3DBB8AA159E6+++B92694A" : 9223372036854775807,
+    "7F5F9FE35D3AF8E4AD76C26B362B3DBB8AA159E6+++0154ABC" : 9223372036854775807
+  },
+  "DVTSourceControlWorkspaceBlueprintIdentifierKey" : "FE804F11-95D6-4CD5-B882-06037A7E210E",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyPathsKey" : {
+    "7F5F9FE35D3AF8E4AD76C26B362B3DBB8AA159E6+++CCFB8A7" : "",
+    "7F5F9FE35D3AF8E4AD76C26B362B3DBB8AA159E6+++B92694A" : "BYT-CristopherChavezNY\/",
+    "7F5F9FE35D3AF8E4AD76C26B362B3DBB8AA159E6+++0154ABC" : ""
+  },
+  "DVTSourceControlWorkspaceBlueprintNameKey" : "BoardingPass",
+  "DVTSourceControlWorkspaceBlueprintVersion" : 204,
+  "DVTSourceControlWorkspaceBlueprintRelativePathToProjectKey" : "BoardingPass\/BoardingPass.xcodeproj",
+  "DVTSourceControlWorkspaceBlueprintRemoteRepositoriesKey" : [
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/AccessLite\/BYT-CristopherChavezNY.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "7F5F9FE35D3AF8E4AD76C26B362B3DBB8AA159E6+++0154ABC"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/AccessLite\/BYT-CristopherChavezNY.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "7F5F9FE35D3AF8E4AD76C26B362B3DBB8AA159E6+++B92694A"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/AccessLite\/BYT-CristopherChavezNY.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "7F5F9FE35D3AF8E4AD76C26B362B3DBB8AA159E6+++CCFB8A7"
+    }
+  ]
+}
