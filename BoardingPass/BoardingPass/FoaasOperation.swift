@@ -25,53 +25,43 @@ import Foundation
  { ... another operation ... }
  ]
  */
-enum OperationErrorHandler: Error {
-    case name, url, fields
-}
+
 struct  FoaasOperation: JSONConvertible, DataConvertible {
     let name: String
     let urlString: String
     let fields: [FoaasField]
     
-    init?(json: [String : Any]) {
-        do {
-            guard let name = json["name"] as? String else { throw OperationErrorHandler.name}
-            guard let urlString = json["url"] as? String else { throw OperationErrorHandler.url }
-            guard let fieldsArr = json["fields"] as? [[String : Any]] else { throw OperationErrorHandler.fields }
-            var fieldsInfo = [FoaasField]()
-            for fields in fieldsArr {
-                guard let fieldsInfo1 = FoaasField(json: fields) else { return nil }
-                fieldsInfo.append(fieldsInfo1)
+    init?(json: [String : AnyObject]) {
+        guard let name = json["name"] as? String,
+            let urlString = json["url"] as? String,
+            let fields = json["fields"] as? [[String : AnyObject]]    else { return nil}
+        
+        var fieldsInfo = [FoaasField]()
+        
+        fields.forEach { (field) in
+            if let fieldToAppend = FoaasField(json: field) {
+                fieldsInfo.append(fieldToAppend)
             }
-            self.name = name
-            self.urlString = urlString
-            self.fields = fieldsInfo
         }
-        catch OperationErrorHandler.name {
-            print("ERROR PARSING NAME")
-        }
-        catch OperationErrorHandler.url {
-            print("ERROR PARSING URL")
-        }
-        catch  {
-            print("UNKWON Error: \(error)")
-        }
-        return nil
+        self.name = name
+        self.urlString = urlString
+        self.fields = fieldsInfo
     }
     
-    func toJson() -> [String : Any] {
-        let dict: [String : Any] = [
-            "name" : self.name,
-            "urlString" : self.urlString,
-            "fields" : self.fields
+    func toJson() -> [String : AnyObject] {
+        let dict: [String : AnyObject] = [
+            "name" : self.name as AnyObject,
+            "urlString" : self.urlString as AnyObject,
+            "fields" : self.fields as AnyObject
         ]
         return dict
     }
     
+//    -- DataConvertible --
     
     init?(data: Data) {
         do {
-            let backToJSON = try JSONSerialization.jsonObject(with: data, options: []) as? [String : Any]
+            let backToJSON = try JSONSerialization.jsonObject(with: data, options: []) as? [String : AnyObject]
             if let validDict = backToJSON {
             let _ = FoaasOperation(json: validDict)
             } else {
@@ -85,15 +75,6 @@ struct  FoaasOperation: JSONConvertible, DataConvertible {
     }
     
     func toData() throws -> Data {
-        let operationDict = toJson()
-        var dataToReturn = Data()
-        do {
-            let operationData = try JSONSerialization.data(withJSONObject: operationDict, options: [])
-            dataToReturn = operationData
-        }
-        catch {
-            print("ERROR CREATING THE OPERATIONDATA: \(error)")
-        }
-        return dataToReturn
+        return try JSONSerialization.data(withJSONObject: toJson(), options: [])
     }
 }

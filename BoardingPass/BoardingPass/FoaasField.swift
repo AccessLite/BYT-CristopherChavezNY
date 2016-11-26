@@ -7,38 +7,25 @@
 //
 
 import Foundation
-enum FieldErrorHandling: Error {
-    case FieldName, FieldField
-}
+
 struct FoaasField: JSONConvertible, CustomStringConvertible {
     let fieldsName: String
     let fieldsField: String
     var description: String {
         return "\(fieldsName) \(fieldsField)"
     }
-    init?(json: [String : Any]) {
-        do {
-            guard let fieldName = json["name"] as? String else { throw FieldErrorHandling.FieldName }
-            guard let fieldsField = json["field"] as? String else { throw FieldErrorHandling.FieldField }
-            self.fieldsName = fieldName
+    
+    init?(json: [String : AnyObject]) {
+        guard let fieldsName = json["name"] as? String,
+            let fieldsField = json["field"] as? String else { return nil }
+            self.fieldsName = fieldsName
             self.fieldsField = fieldsField
-        }
-        catch FieldErrorHandling.FieldName {
-            print("ERROR OCCURED WHILE PARSING FeldsName")
-        }
-        catch FieldErrorHandling.FieldField {
-            print("ERROR OCCURED WHILE PARSING FieldsField")
-        }
-        catch {
-            print("ERROR OCCURED: \(error)")
-        }
-        return nil
     }
-    func toJson() -> [String : Any] {
-        let dictToReturn: [ String : Any] = [
-            "fieldsName" : self.fieldsName,
-            "fieldsField" : self.fieldsField,
-            "description" : self.description
+    
+    func toJson() -> [String : AnyObject] {
+        let dictToReturn: [ String : AnyObject] = [
+            "fieldsName" : self.fieldsName as AnyObject,
+            "fieldsField" : self.fieldsField as AnyObject
         ]
         return dictToReturn
     }

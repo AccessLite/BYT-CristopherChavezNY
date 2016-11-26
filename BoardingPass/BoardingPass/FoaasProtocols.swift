@@ -7,9 +7,10 @@
 //
 
 import Foundation
+
 protocol JSONConvertible {
-    init?(json: [String : Any])
-    func toJson() -> [String : Any]
+    init?(json: [String : AnyObject])
+    func toJson() -> [String : AnyObject]
 }
 
 protocol DataConvertible {

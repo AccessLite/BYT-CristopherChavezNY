@@ -26,7 +26,7 @@ struct Foaas: JSONConvertible, CustomStringConvertible {
         return "\(message) \(subtitle)"
     }
     
-    init?(json: [String : Any]) {
+    init?(json: [String : AnyObject]) {
         do {
             guard let message = json["message"] as? String else {throw FoaasErrorHandler.message}
             guard let subtitle = json["subtitle"] as? String else {throw FoaasErrorHandler.subtitle}
@@ -45,11 +45,10 @@ struct Foaas: JSONConvertible, CustomStringConvertible {
         return nil
     }
     
-    func toJson() -> [String : Any] {
-        let fooasDict: [String : Any] = [
-            "message" : self.message,
-            "subtitle" :self.subtitle,
-            "description" : self.description
+    func toJson() -> [String : AnyObject] {
+        let fooasDict: [String : AnyObject] = [
+            "message" : self.message as AnyObject,
+            "subtitle" :self.subtitle as AnyObject
         ]
         return fooasDict
     }

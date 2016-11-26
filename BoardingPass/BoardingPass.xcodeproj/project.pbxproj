@@ -12,11 +12,12 @@
 		2D2821961DE65FFD00C35BA9 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2D2821941DE65FFD00C35BA9 /* Main.storyboard */; };
 		2D2821981DE65FFD00C35BA9 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2D2821971DE65FFD00C35BA9 /* Assets.xcassets */; };
 		2D28219B1DE65FFD00C35BA9 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2D2821991DE65FFD00C35BA9 /* LaunchScreen.storyboard */; };
-		2D2821A31DE6605300C35BA9 /* Foaas.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D2821A21DE6605300C35BA9 /* Foaas.swift */; };
 		2D2821A61DE66A1D00C35BA9 /* FoaasProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D2821A51DE66A1D00C35BA9 /* FoaasProtocols.swift */; };
 		2D2821A81DE677FF00C35BA9 /* FoaasOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D2821A71DE677FF00C35BA9 /* FoaasOperation.swift */; };
 		2D2821AA1DE7769B00C35BA9 /* FoaasField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D2821A91DE7769B00C35BA9 /* FoaasField.swift */; };
 		2D2821AC1DE7855700C35BA9 /* FoaasAPIManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D2821AB1DE7855700C35BA9 /* FoaasAPIManager.swift */; };
+		2D2821B21DE7EE6A00C35BA9 /* Foaas.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D2821B11DE7EE6A00C35BA9 /* Foaas.swift */; };
+		2D2821B41DE7F38300C35BA9 /* FoaasDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D2821B31DE7F38300C35BA9 /* FoaasDataManager.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -27,11 +28,12 @@
 		2D2821971DE65FFD00C35BA9 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		2D28219A1DE65FFD00C35BA9 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		2D28219C1DE65FFD00C35BA9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		2D2821A21DE6605300C35BA9 /* Foaas.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Foaas.swift; path = ../Foaas.swift; sourceTree = "<group>"; };
 		2D2821A51DE66A1D00C35BA9 /* FoaasProtocols.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FoaasProtocols.swift; sourceTree = "<group>"; };
 		2D2821A71DE677FF00C35BA9 /* FoaasOperation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FoaasOperation.swift; sourceTree = "<group>"; };
 		2D2821A91DE7769B00C35BA9 /* FoaasField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FoaasField.swift; sourceTree = "<group>"; };
 		2D2821AB1DE7855700C35BA9 /* FoaasAPIManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FoaasAPIManager.swift; sourceTree = "<group>"; };
+		2D2821B11DE7EE6A00C35BA9 /* Foaas.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Foaas.swift; sourceTree = "<group>"; };
+		2D2821B31DE7F38300C35BA9 /* FoaasDataManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FoaasDataManager.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -64,10 +66,10 @@
 		2D28218F1DE65FFD00C35BA9 /* BoardingPass */ = {
 			isa = PBXGroup;
 			children = (
-				2D2821A41DE6605C00C35BA9 /* Model */,
 				2D2821901DE65FFD00C35BA9 /* AppDelegate.swift */,
 				2D2821921DE65FFD00C35BA9 /* ViewController.swift */,
-				2D2821AE1DE7856700C35BA9 /* Protocals */,
+				2D2821A41DE6605C00C35BA9 /* Model */,
+				2D2821AE1DE7856700C35BA9 /* Protocals/ Managers */,
 				2D2821AD1DE7855D00C35BA9 /* Network */,
 				2D2821B01DE7860A00C35BA9 /* StoryBoard */,
 				2D2821AF1DE785FC00C35BA9 /* Supporting Files */,
@@ -78,7 +80,7 @@
 		2D2821A41DE6605C00C35BA9 /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				2D2821A21DE6605300C35BA9 /* Foaas.swift */,
+				2D2821B11DE7EE6A00C35BA9 /* Foaas.swift */,
 				2D2821A71DE677FF00C35BA9 /* FoaasOperation.swift */,
 				2D2821A91DE7769B00C35BA9 /* FoaasField.swift */,
 			);
@@ -93,12 +95,13 @@
 			name = Network;
 			sourceTree = "<group>";
 		};
-		2D2821AE1DE7856700C35BA9 /* Protocals */ = {
+		2D2821AE1DE7856700C35BA9 /* Protocals/ Managers */ = {
 			isa = PBXGroup;
 			children = (
+				2D2821B31DE7F38300C35BA9 /* FoaasDataManager.swift */,
 				2D2821A51DE66A1D00C35BA9 /* FoaasProtocols.swift */,
 			);
-			name = Protocals;
+			name = "Protocals/ Managers";
 			sourceTree = "<group>";
 		};
 		2D2821AF1DE785FC00C35BA9 /* Supporting Files */ = {
@@ -192,12 +195,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2D2821B41DE7F38300C35BA9 /* FoaasDataManager.swift in Sources */,
+				2D2821B21DE7EE6A00C35BA9 /* Foaas.swift in Sources */,
 				2D2821A81DE677FF00C35BA9 /* FoaasOperation.swift in Sources */,
 				2D2821AC1DE7855700C35BA9 /* FoaasAPIManager.swift in Sources */,
 				2D2821931DE65FFD00C35BA9 /* ViewController.swift in Sources */,
 				2D2821911DE65FFD00C35BA9 /* AppDelegate.swift in Sources */,
 				2D2821A61DE66A1D00C35BA9 /* FoaasProtocols.swift in Sources */,
-				2D2821A31DE6605300C35BA9 /* Foaas.swift in Sources */,
 				2D2821AA1DE7769B00C35BA9 /* FoaasField.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
