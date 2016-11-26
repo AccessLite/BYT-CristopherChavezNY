@@ -25,6 +25,8 @@ import Foundation
  { ... another operation ... }
  ]
  */
+
+// Again, nice that you added this, but not in spec
 enum OperationErrorHandler: Error {
     case name, url, fields
 }
@@ -59,6 +61,7 @@ struct  FoaasOperation: JSONConvertible, DataConvertible {
         return nil
     }
     
+    // should be toJson() -> [String : AnyObject]
     func toJson() -> [String : Any] {
         let dict: [String : Any] = [
             "name" : self.name,
@@ -73,7 +76,7 @@ struct  FoaasOperation: JSONConvertible, DataConvertible {
         do {
             let backToJSON = try JSONSerialization.jsonObject(with: data, options: []) as? [String : Any]
             if let validDict = backToJSON {
-            let _ = FoaasOperation(json: validDict)
+                let _ = FoaasOperation(json: validDict)
             } else {
                 return nil
             }
@@ -84,6 +87,9 @@ struct  FoaasOperation: JSONConvertible, DataConvertible {
         return nil
     }
     
+    // re-think how you wrote this function. Is your function ever actually going to throw?
+    // Also, should toData() handle a throw or should the caller? 
+    // In answering those questions you should be able to write this in a single line
     func toData() throws -> Data {
         let operationDict = toJson()
         var dataToReturn = Data()

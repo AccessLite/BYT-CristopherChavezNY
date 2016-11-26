@@ -8,6 +8,8 @@
 
 import Foundation
 
+// This is a good instinct to add this ahead of time. 
+// But be aware that this wasn't part of the spec, and costs extra development time
 enum FoaasErrorHandler: Error {
     case jsonError, message, subtitle
 }
@@ -49,6 +51,10 @@ struct Foaas: JSONConvertible, CustomStringConvertible {
         let fooasDict: [String : Any] = [
             "message" : self.message,
             "subtitle" :self.subtitle,
+            
+            // description isn't needed to be returned with the json
+            //   toJson() is meant to prepare an object to be saved in UserDefaults for later loading
+            //   "description" a computed value, so it serves no purpose by being stored 
             "description" : self.description
         ]
         return fooasDict
