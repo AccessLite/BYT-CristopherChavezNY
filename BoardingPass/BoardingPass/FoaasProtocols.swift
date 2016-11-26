@@ -7,6 +7,17 @@
 //
 
 import Foundation
+
+/*
+ The spec lists the JSONConvertible protocol as:
+ 
+ protocol JSONConvertible {
+    init?(json: [String : AnyObject])
+    func toJson() -> [String : AnyObject]
+ }
+
+ please correct this
+ */
 protocol JSONConvertible {
     init?(json: [String : Any])
     func toJson() -> [String : Any]

@@ -7,6 +7,7 @@
 //
 
 import Foundation
+
 enum FieldErrorHandling: Error {
     case FieldName, FieldField
 }
@@ -16,6 +17,7 @@ struct FoaasField: JSONConvertible, CustomStringConvertible {
     var description: String {
         return "\(fieldsName) \(fieldsField)"
     }
+
     init?(json: [String : Any]) {
         do {
             guard let fieldName = json["name"] as? String else { throw FieldErrorHandling.FieldName }
@@ -38,6 +40,8 @@ struct FoaasField: JSONConvertible, CustomStringConvertible {
         let dictToReturn: [ String : Any] = [
             "fieldsName" : self.fieldsName,
             "fieldsField" : self.fieldsField,
+            
+            // Again, description isn't needed
             "description" : self.description
         ]
         return dictToReturn
