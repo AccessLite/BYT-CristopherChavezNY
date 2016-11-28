@@ -8,9 +8,6 @@
 
 import Foundation
 
-enum FoaasErrorHandler: Error {
-    case jsonError, message, subtitle
-}
 /*
  // Enpoint: /awesome/:from
  // GET http://www.foaas.com/awesome/louis
@@ -27,22 +24,10 @@ struct Foaas: JSONConvertible, CustomStringConvertible {
     }
     
     init?(json: [String : AnyObject]) {
-        do {
-            guard let message = json["message"] as? String else {throw FoaasErrorHandler.message}
-            guard let subtitle = json["subtitle"] as? String else {throw FoaasErrorHandler.subtitle}
-            self.message = message
-            self.subtitle = subtitle
-        }
-        catch FoaasErrorHandler.message {
-            print("ERROR WITH PARSING MESSAGE")
-        }
-        catch FoaasErrorHandler.subtitle {
-            print("ERROR WITH PARSING SUBTITLE")
-        }
-        catch {
-            print("PRINT \(error)")
-        }
-        return nil
+        guard let message = json["message"] as? String,
+            let subtitle = json["subtitle"] as? String else { return nil }
+        self.message = message
+        self.subtitle = subtitle
     }
     
     func toJson() -> [String : AnyObject] {
@@ -52,4 +37,5 @@ struct Foaas: JSONConvertible, CustomStringConvertible {
         ]
         return fooasDict
     }
+    
 }
