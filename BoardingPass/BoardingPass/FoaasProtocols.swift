@@ -17,3 +17,4 @@ protocol DataConvertible {
     init?(data: Data)
     func toData() throws -> Data
 }
+

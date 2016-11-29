@@ -9,29 +9,13 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "BoardingPass/FoaasAPIManager.swift"
-            timestampString = "501989535.615055"
+            filePath = "BoardingPass/FoaasViewController.swift"
+            timestampString = "502079872.745911"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "30"
-            endingLineNumber = "30"
-            landmarkName = "getFoaas(url:completion:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "BoardingPass/FoaasAPIManager.swift"
-            timestampString = "501989537.727315"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "25"
-            endingLineNumber = "25"
-            landmarkName = "getFoaas(url:completion:)"
+            startingLineNumber = "81"
+            endingLineNumber = "81"
+            landmarkName = "registerForNotifications()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
