@@ -34,47 +34,43 @@ struct  FoaasOperation: JSONConvertible, DataConvertible {
     init?(json: [String : AnyObject]) {
         guard let name = json["name"] as? String,
             let urlString = json["url"] as? String,
-            let fields = json["fields"] as? [[String : AnyObject]]    else { return nil}
+            let fields = json["fields"] as? [[String : AnyObject]]
+        else { return nil }
         
-        var fieldsInfo = [FoaasField]()
-        
-        fields.forEach { (field) in
-            if let fieldToAppend = FoaasField(json: field) {
-                fieldsInfo.append(fieldToAppend)
-            }
-        }
         self.name = name
         self.urlString = urlString
-        self.fields = fieldsInfo
+        self.fields = fields.flatMap { FoaasField(json: $0) }
     }
     
     func toJson() -> [String : AnyObject] {
-        let dict: [String : AnyObject] = [
+        return [
             "name" : self.name as AnyObject,
             "urlString" : self.urlString as AnyObject,
-            "fields" : self.fields as AnyObject
+            "fields" : self.fields.map { $0.toJson } as AnyObject // self.fields is of type [FoaasField], which if you try to save to UserDefaults it will crash
         ]
-        return dict
     }
     
-//    -- DataConvertible --
+    //    -- DataConvertible --
     
     init?(data: Data) {
         do {
             let backToJSON = try JSONSerialization.jsonObject(with: data, options: []) as? [String : AnyObject]
-            if let validDict = backToJSON {
-            let _ = FoaasOperation(json: validDict)
-            } else {
+            guard let validJson = backToJSON,
+                let validOperation = FoaasOperation(json: validJson) else {
                 return nil
             }
+            
+            self = validOperation
+            return
         }
         catch {
             print("ERROR CASTING DATA \(error)")
         }
+        
         return nil
     }
     
     func toData() throws -> Data {
-        return try JSONSerialization.data(withJSONObject: toJson(), options: [])
+        return try JSONSerialization.data(withJSONObject: self.toJson(), options: [])
     }
 }

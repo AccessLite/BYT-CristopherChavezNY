@@ -23,10 +23,9 @@ struct FoaasField: JSONConvertible, CustomStringConvertible {
     }
     
     func toJson() -> [String : AnyObject] {
-        let dictToReturn: [ String : AnyObject] = [
+        return [
             "fieldsName" : self.fieldsName as AnyObject,
             "fieldsField" : self.fieldsField as AnyObject
         ]
-        return dictToReturn
     }
 }
