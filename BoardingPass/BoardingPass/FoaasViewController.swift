@@ -1,17 +1,16 @@
  //
-//  FoaasViewController.swift
-//  BoardingPass
-//
-//  Created by Cris on 11/27/16.
-//  Copyright © 2016 Cris. All rights reserved.
-//
-
-import UIKit
-
-class FoaasViewController: UIViewController {
-
+ //  FoaasViewController.swift
+ //  BoardingPass
+ //
+ //  Created by Cris on 11/27/16.
+ //  Copyright © 2016 Cris. All rights reserved.
+ //
+ 
+ import UIKit
+ 
+ class FoaasViewController: UIViewController {
+    
     let API = FoaasAPIManager()
-//    var foaas: Foaas = Foaas
     
     lazy var BYTLabel: UILabel = {
         let BYTL = UILabel()
@@ -48,7 +47,7 @@ class FoaasViewController: UIViewController {
     }()
     
     func handleOcto() {
-     let navController = UINavigationController(rootViewController: FoaasOperationsTableViewController())
+        let navController = UINavigationController(rootViewController: FoaasOperationsTableViewController())
         self.present(navController, animated: true, completion: nil)
     }
     
@@ -74,24 +73,40 @@ class FoaasViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
-        APICall()
         setupViews()
+        registerForNotifications()
     }
     
-    func APICall() {
-        guard let url = URL(string: "http://www.foaas.com/awesome/louis") else { return }
+    internal func registerForNotifications() {
+        let notificationCenter = NotificationCenter.default
+        notificationCenter.addObserver(self, selector: #selector(updateFoaas(sender:)), name: Notification.Name(rawValue: "FoaasObjectDidUpdate"), object: nil)
+        
+            APICall()
+    }
+    
+    internal func updateFoaas(sender: Notification) {
+        if let dict = sender.userInfo?["info"] as? [String : Any],
+            let message = dict["url"] as? String {
+            APICall(url: message)
+        }
+    }
+    
+    func APICall(url: String = "http://www.foaas.com/awesome/:Louis") {
+        guard let url = URL(string: url) else { return }
         API.getFoaas(url: url) { (data: Foaas) in
             DispatchQueue.main.async {
                 self.BYTLabel.text = data.message
-                self.BYTSubtitleLabel.text = data.subtitle
+                let sub =  data.subtitle.replacingOccurrences(of: "- :", with: "")
+                self.BYTSubtitleLabel.text = "From\n\(sub)"
+                dump("From\n\(sub)")
                 self.reloadInputViews()
             }
         }
     }
-
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
     
-}
+ }
