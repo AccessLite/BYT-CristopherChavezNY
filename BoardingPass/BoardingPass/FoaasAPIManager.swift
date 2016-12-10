@@ -13,7 +13,7 @@ enum ErrorManager: Error {
 }
 class FoaasAPIManager {
     
-    internal func getFoaas(url: URL, completion: @escaping (Foaas) -> Void) {
+    internal class func getFoaas(url: URL, completion: @escaping (Foaas) -> Void) {
         var request = URLRequest(url: url)
         request.httpMethod = "GET"
         request.addValue("application/json", forHTTPHeaderField: "Accept")
@@ -23,7 +23,7 @@ class FoaasAPIManager {
                 print("ENCOUNTERED ERROR: \(error)")
             }
             if let responseFoaas = response as? HTTPURLResponse {
-                print(responseFoaas.statusCode)
+                print("getFoaas: \(responseFoaas.statusCode)")
             }
             if let validData: Data = data {
                 do {
@@ -43,7 +43,7 @@ class FoaasAPIManager {
             }.resume()
     }
     
-    internal func getOperations(complete: @escaping ([FoaasOperation]?)-> Void) {
+    internal class func getOperations(complete: @escaping ([FoaasOperation]?)-> Void) {
         guard let url: URL = URL(string: "http://www.foaas.com/operations") else { return }
         var request = URLRequest(url: url)
         request.httpMethod = "GET"
@@ -53,9 +53,7 @@ class FoaasAPIManager {
             if error != nil {
                 print("ERROR ENCOUNTERED: \(error)")
             }
-            if let operationsResponse = response as? HTTPURLResponse {
-                print(operationsResponse.statusCode)
-            }
+
             if let validData: Data = data {
                 var operationArr = [FoaasOperation]()
                 do {
@@ -79,4 +77,5 @@ class FoaasAPIManager {
             }
             }.resume()
     }
+    
 }

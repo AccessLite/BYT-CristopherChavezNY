@@ -52,7 +52,7 @@ struct  FoaasOperation: JSONConvertible, DataConvertible {
         let dict: [String : AnyObject] = [
             "name" : self.name as AnyObject,
             "urlString" : self.urlString as AnyObject,
-            "fields" : self.fields as AnyObject
+            "fields" : self.fields.map{ $0.toJson() } as AnyObject
         ]
         return dict
     }
@@ -61,17 +61,14 @@ struct  FoaasOperation: JSONConvertible, DataConvertible {
     
     init?(data: Data) {
         do {
-            let backToJSON = try JSONSerialization.jsonObject(with: data, options: []) as? [String : AnyObject]
-            if let validDict = backToJSON {
-            let _ = FoaasOperation(json: validDict)
-            } else {
-                return nil
-            }
+            let validJSON = try JSONSerialization.jsonObject(with: data, options: [])
+            guard let validObject = validJSON as? [String: AnyObject] else { return nil }
+            self.init(json: validObject)
         }
         catch {
-            print("ERROR CASTING DATA \(error)")
+            print(error.localizedDescription)
+            return nil
         }
-        return nil
     }
     
     func toData() throws -> Data {
