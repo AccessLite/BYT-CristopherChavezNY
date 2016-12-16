@@ -20,8 +20,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         let rootVC = FoaasViewController()
         window?.rootViewController = rootVC
-    
-        
+
         return true
     }
 

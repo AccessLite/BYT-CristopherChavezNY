@@ -8,6 +8,9 @@
 
 import Foundation
 
+
+// You dont these save/load methods implemented anywhere.
+// Also, your save/load operations are going to fail as they are currently written
 class FoaasDataManager {
     static let shared: FoaasDataManager = FoaasDataManager()
     init() {}
@@ -15,7 +18,8 @@ class FoaasDataManager {
     private static let operationsKey: String = "FoaasOperationsKey"
     private static let defaults = UserDefaults.standard
     internal private(set) var operations: [FoaasOperation]?
-
+    
+    // TODO: Use your protocol functions to properly do data conversions
     func save(operations: [FoaasOperation]) {
         if var operationsFoaasDefaults = FoaasDataManager.defaults.object(forKey: FoaasDataManager.operationsKey) as? [[FoaasOperation]] {
             operationsFoaasDefaults.append(operations)
@@ -25,7 +29,10 @@ class FoaasDataManager {
         }
     }
     
+    // TODO: Fix these warnings
+    // TODO: Use your protocols to properly do data conversions
     func load() -> Bool {
+        
         var success = false
         if let operationsFoaasDefaults = FoaasDataManager.defaults.object(forKey: FoaasDataManager.operationsKey) as? [[FoaasOperation]] {
             operationsFoaasDefaults.forEach({ (FoaasDefault) in
@@ -34,10 +41,12 @@ class FoaasDataManager {
                 
             })
         }
-     return success
+        
+        return success
     }
     
     func deletedSortedOperations() {
         FoaasDataManager.defaults.removeObject(forKey: FoaasDataManager.operationsKey)
+        self.operations = nil 
     }
 }
