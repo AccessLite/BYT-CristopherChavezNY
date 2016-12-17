@@ -17,27 +17,32 @@ class FoaasDataManager {
     internal private(set) var operations: [FoaasOperation]?
 
     func save(operations: [FoaasOperation]) {
-        if var operationsFoaasDefaults = FoaasDataManager.defaults.object(forKey: FoaasDataManager.operationsKey) as? [[FoaasOperation]] {
-            operationsFoaasDefaults.append(operations)
-            FoaasDataManager.defaults.set(operationsFoaasDefaults, forKey: FoaasDataManager.operationsKey)
-        } else {
-            FoaasDataManager.defaults.set([operations], forKey: FoaasDataManager.operationsKey)
-        }
+        let data: [Data] = operations.flatMap{ try? $0.toData() }
+        FoaasDataManager.defaults.set(data, forKey: FoaasDataManager.operationsKey)
+        self.operations = operations
     }
     
-    func load() -> Bool {
-        var success = false
-        if let operationsFoaasDefaults = FoaasDataManager.defaults.object(forKey: FoaasDataManager.operationsKey) as? [[FoaasOperation]] {
-            operationsFoaasDefaults.forEach({ (FoaasDefault) in
-                guard let FoaasDefault1 = FoaasDefault as? [String : AnyObject] else {return}
-                FoaasOperation(json: FoaasDefault1)
-                
-            })
+    func getFoaas(url: URL, completion: @escaping (Foaas) -> Void) {
+        FoaasAPIManager.getFoaas(url: url) { (foass: Foaas) in
+            completion(foass)
         }
-     return success
+    }
+
+    
+    func load() -> Bool {
+        guard let opsData = FoaasDataManager.defaults.value(forKey: FoaasDataManager.operationsKey) as? [Data] else { return false }
+        var arr = [FoaasOperation]()
+        for dta in opsData {
+            guard let this = FoaasOperation(data: dta) else { return false }
+            arr.append(this)
+        }
+        self.operations = arr
+        return true
     }
     
     func deletedSortedOperations() {
         FoaasDataManager.defaults.removeObject(forKey: FoaasDataManager.operationsKey)
+        self.operations = nil
     }
+    
 }
