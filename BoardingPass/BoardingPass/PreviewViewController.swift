@@ -11,6 +11,11 @@ import UIKit
 class PreviewViewController: UIViewController, UITextFieldDelegate {
     
     var operation: FoaasOperation!
+    let API = FoaasAPIManager()
+    var operationHalf = String()
+    let website = "http://www.foaas.com"
+    var editedMessage = String()
+    var editedSubtitle = String()
     
     lazy var previewLabel: UILabel = {
         let pl = UILabel()
@@ -49,6 +54,7 @@ class PreviewViewController: UIViewController, UITextFieldDelegate {
         ptv.translatesAutoresizingMaskIntoConstraints = false
         ptv.isEditable = false
         ptv.isSelectable = false
+        ptv.font = UIFont.systemFont(ofSize: 20)
         ptv.sizeToFit()
         return ptv
     }()
@@ -70,7 +76,7 @@ class PreviewViewController: UIViewController, UITextFieldDelegate {
         tf.placeholder = "from"
         return tf
     }()
-
+    
     lazy var textFieldThree: UITextField = {
         let tf = UITextField()
         tf.delegate = self
@@ -79,7 +85,7 @@ class PreviewViewController: UIViewController, UITextFieldDelegate {
         tf.placeholder = "reference"
         return tf
     }()
-
+    
     func setUpViews() {
         view.addSubview(previewLabel)
         view.addSubview(previewTextView)
@@ -102,7 +108,7 @@ class PreviewViewController: UIViewController, UITextFieldDelegate {
         nameLabel.topAnchor.constraint(equalTo: previewTextView.bottomAnchor, constant: 20).isActive = true
         nameLabel.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 8).isActive = true
         nameLabel.rightAnchor.constraint(equalTo: view.rightAnchor,  constant: -8).isActive = true
-
+        
         
         textFieldOne.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 10).isActive = true
         textFieldOne.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -10).isActive = true
@@ -111,7 +117,7 @@ class PreviewViewController: UIViewController, UITextFieldDelegate {
         fromLabel.topAnchor.constraint(equalTo: textFieldOne.bottomAnchor, constant: 20).isActive = true
         fromLabel.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 8).isActive = true
         fromLabel.rightAnchor.constraint(equalTo: view.rightAnchor,  constant: -8).isActive = true
-    
+        
         
         textFieldTwo.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 10).isActive = true
         textFieldTwo.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -10).isActive = true
@@ -124,26 +130,80 @@ class PreviewViewController: UIViewController, UITextFieldDelegate {
         textFieldThree.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 10).isActive = true
         textFieldThree.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -10).isActive = true
         textFieldThree.topAnchor.constraint(equalTo: referenceLabel.bottomAnchor, constant: 10).isActive = true
-
+        
     }
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
+        self.operationHalf = operation.urlString
         createSelectButton()
         setUpViews()
-        previewTextView.text = operation.urlString
+        APICall()
         // Do any additional setup after loading the view.
     }
+    
+    func APICall() {
+        let operationURL = operation.urlString
+        let newoperationURl = operationURL.replacingOccurrences(of: ":from", with: "from")
+        let newoperationURl2 = newoperationURl.replacingOccurrences(of: ":name", with: "name")
+        let newoperationURl3 = newoperationURl2.replacingOccurrences(of: ":reference", with: "reference")
+        
+        guard let url = URL(string: "\(website)\(newoperationURl3)") else { return }
+        API.getFoaas(url: url) { (data: Foaas) in
+            DispatchQueue.main.async {
+                self.previewTextView.text = "\(data.message) \n\(data.subtitle)"
+                self.editedMessage = data.message
+                self.editedSubtitle = data.subtitle
+                self.reloadInputViews()
+            }
+        }
+    }
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        return true
+    }
+    
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        guard let text = textField.text else { return }
+        dump(operationHalf)
+        switch textField {
+        case self.textFieldOne:
+            self.editedMessage = self.editedMessage.replacingOccurrences(of: "name", with: text)
+            self.editedSubtitle = self.editedSubtitle.replacingOccurrences(of: "name", with: text)
+            self.operationHalf = self.operationHalf.replacingOccurrences(of: "name", with: text)
+            self.previewTextView.text = "\(editedMessage) \n\(editedSubtitle)"
+            
+        case self.textFieldTwo:
+            self.editedMessage = self.editedMessage.replacingOccurrences(of: "from", with: text)
+            self.editedSubtitle = self.editedSubtitle.replacingOccurrences(of: "from", with: text)
+            self.operationHalf = self.operationHalf.replacingOccurrences(of: "from", with: text)
+            self.previewTextView.text = "\(editedMessage) \n\(editedSubtitle)"
+            
+        case textFieldThree:
+            self.editedMessage = self.editedMessage.replacingOccurrences(of: "reference", with: text)
+            self.editedSubtitle = self.editedSubtitle.replacingOccurrences(of: "reference", with: text)
+            self.operationHalf = self.operationHalf.replacingOccurrences(of: "reference", with: text)
+            self.previewTextView.text = "\(editedMessage) \n\(editedSubtitle)"
+        default:
+            break
+        }
+    }
+    
     
     func createSelectButton() {
         self.title = operation.name
         let rightButton = UIBarButtonItem(title: "Select", style: UIBarButtonItemStyle.done, target: self, action: #selector(handleSelectButton))
         navigationItem.rightBarButtonItem = rightButton
     }
+    
     func handleSelectButton() {
-        dismiss(animated: true, completion: nil)
+
+        self.present(FoaasViewController(), animated: true, completion: nil)
+        let foaasInfo: [String : Any] = [ "url" : "\(website)\(operationHalf)" ]
+        let notificationCenter = NotificationCenter.default
+        notificationCenter.post(name: Notification.Name(rawValue: "FoaasObjectDidUpdate"), object: nil, userInfo: [ "info" : foaasInfo ])
     }
-    
-    
 }

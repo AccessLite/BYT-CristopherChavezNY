@@ -19,8 +19,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         window?.makeKeyAndVisible()
         
         let rootVC = FoaasViewController()
-//        let navController = UINavigationController(rootViewController: rootVC)
         window?.rootViewController = rootVC
+    
+        
         return true
     }
 
